@@ -1,0 +1,74 @@
+Index: ds/src/Plugin/views/Entity/Render/RendererBase.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ds/src/Plugin/views/Entity/Render/RendererBase.php	(revision )
++++ ds/src/Plugin/views/Entity/Render/RendererBase.php	(revision )
+@@ -13,7 +13,7 @@
+   /**
+    * {@inheritdoc}
+    */
+-  public function preRender(array $result) {
++  public function preRender(array $result, $relationship = 'none') {
+     parent::preRender($result);
+     $this->dsPreRender($result);
+   }
+Index: ds/src/Plugin/views/Entity/Render/CurrentLanguageRenderer.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ds/src/Plugin/views/Entity/Render/CurrentLanguageRenderer.php	(revision )
++++ ds/src/Plugin/views/Entity/Render/CurrentLanguageRenderer.php	(revision )
+@@ -15,7 +15,8 @@
+    * @param \Drupal\views\ResultRow $row
+    *   The result row.
+    */
+-  public function getLangcode(ResultRow $row) {
++  public function getLangcode(array $result, $relationship = 'none') {
++    return NULL;
+   }
+ 
+ }
+Index: ds/src/Plugin/views/Entity/Render/TranslationLanguageRenderer.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ds/src/Plugin/views/Entity/Render/TranslationLanguageRenderer.php	(revision )
++++ ds/src/Plugin/views/Entity/Render/TranslationLanguageRenderer.php	(revision )
+@@ -42,7 +42,7 @@
+   /**
+    * {@inheritdoc}
+    */
+-  public function preRender(array $result) {
++  public function preRender(array $result, $relationship = 'none') {
+     parent::dsPreRender($result, TRUE);
+   }
+ 
+@@ -58,7 +58,7 @@
+   /**
+    * {@inheritdoc}
+    */
+-  public function getLangcode(ResultRow $row) {
++  public function getLangcode(ResultRow $row, $relationship = 'none') {
+     return isset($row->{$this->langcodeAlias}) ? $row->{$this->langcodeAlias} : $this->languageManager->getDefaultLanguage()->getId();
+   }
+ 
+Index: ds/src/Plugin/views/Entity/Render/ConfigurableLanguageRenderer.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ds/src/Plugin/views/Entity/Render/ConfigurableLanguageRenderer.php	(revision )
++++ ds/src/Plugin/views/Entity/Render/ConfigurableLanguageRenderer.php	(revision )
+@@ -39,7 +39,7 @@
+   /**
+    * {@inheritdoc}
+    */
+-  public function getLangcode(ResultRow $row) {
++  public function getLangcode(ResultRow $row, $relationship = 'none') {
+     return $this->langcode;
+   }
+ 

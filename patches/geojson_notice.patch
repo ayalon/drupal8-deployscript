@@ -1,0 +1,13 @@
+diff --git a/views_geojson/src/Plugin/views/style/GeoJson.php b/src/Plugin/views/style/GeoJson.php
+index e064b8f..c09b05e 100644
+--- a/views_geojson/src/Plugin/views/style/GeoJson.php
++++ b/views_geojson/src/Plugin/views/style/GeoJson.php
+@@ -404,7 +404,7 @@ class GeoJson extends StylePluginBase {
+     }
+ 
+     // Only add features with geometry data.
+-    if (!$feature['geometry']) {
++    if (empty($feature['geometry'])) {
+       return NULL;
+     }
+ 

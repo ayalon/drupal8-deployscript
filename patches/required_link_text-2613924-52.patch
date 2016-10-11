@@ -1,0 +1,28 @@
+From 94e27e849e6fd2b034a9859096aee5f7478c306f Mon Sep 17 00:00:00 2001
+From: Mac_Weber <Mac_Weber@789986.no-reply.drupal.org>
+Date: Sat, 12 Dec 2015 23:22:33 -0200
+Subject: [PATCH] Issue #2613924 by heykarthikwithu, Mac_Weber, attiks,
+ aerozeppelin, claudiu.cristea: Link text isn't marked as required
+
+---
+ .../src/Plugin/Field/FieldWidget/LinkWidget.php    |   2 +
+ core/modules/link/src/Tests/LinkFieldTest.php      | 127 +++++++++++++++++++++
+ 2 files changed, 129 insertions(+)
+
+diff --git a/core/modules/link/src/Plugin/Field/FieldWidget/LinkWidget.php b/core/modules/link/src/Plugin/Field/FieldWidget/LinkWidget.php
+index 9c97caa..f838540 100644
+--- a/core/modules/link/src/Plugin/Field/FieldWidget/LinkWidget.php
++++ b/core/modules/link/src/Plugin/Field/FieldWidget/LinkWidget.php
+@@ -226,6 +226,8 @@ public function formElement(FieldItemListInterface $items, $delta, array $elemen
+     // settings cannot be saved otherwise.
+     if (!$this->isDefaultValueWidget($form_state) && $this->getFieldSetting('title') == DRUPAL_REQUIRED) {
+       $element['#element_validate'][] = array(get_called_class(), 'validateTitleElement');
++      // Mark field as required, if parent is required.
++      $element['title']['#required'] = $element['#required'];
+     }
+ 
+     // Exposing the attributes array in the widget is left for alternate and more
+
+--
+2.1.5
+

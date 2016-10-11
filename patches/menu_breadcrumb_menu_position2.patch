@@ -1,0 +1,19 @@
+Index: src/MenuBasedBreadcrumbBuilder.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/MenuBasedBreadcrumbBuilder.php	(revision )
++++ src/MenuBasedBreadcrumbBuilder.php	(revision )
+@@ -144,6 +144,11 @@
+       array_push($links, $current);
+     }
+ 
++    $current_url = Url::fromRoute('<current>')->getInternalPath();
++    if($current->getUrl()->getInternalPath() != $current_url) {
++      array_push($links, $current);
++    }
++
+     return $breadcrumb->setLinks($links);
+   }
+ 

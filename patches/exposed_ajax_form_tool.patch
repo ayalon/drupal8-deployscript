@@ -1,0 +1,16 @@
+Index: web/core/modules/views/js/ajax_view.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/core/modules/views/js/ajax_view.js	(revision )
++++ web/core/modules/views/js/ajax_view.js	(revision )
+@@ -85,7 +85,7 @@
+ 
+     // Add the ajax to exposed forms.
+     this.$exposed_form = $('form#views-exposed-form-' + settings.view_name.replace(/_/g, '-') + '-' + settings.view_display_id.replace(/_/g, '-'));
+-    this.$exposed_form.once('exposed-form').each($.proxy(this.attachExposedFormAjax, this));
++    this.$exposed_form.each($.proxy(this.attachExposedFormAjax, this));
+ 
+     // Add the ajax to pagers.
+     this.$view

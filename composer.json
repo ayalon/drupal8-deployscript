@@ -1,0 +1,163 @@
+{
+    "name": "drupal-composer/drupal-project",
+    "description": "Composer installation for ASVZ by Liip AG, Jon Minder",
+    "type": "project",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "",
+            "role": ""
+        }
+    ],
+    "repositories": {
+        "0": {
+            "type": "composer",
+            "url": "https://packagist.drupal-composer.org"
+        },
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
+    "require": {
+        "composer/installers": "^1.0.20",
+        "drupal-composer/drupal-scaffold": "^1.3.1",
+        "cweagans/composer-patches": "~1.0",
+        "drupal/core": "~8.2",
+        "drush/drush": "~8.1",
+        "drupal/console": "1.0.0-beta4",
+        "drupal/migrate_plus": "8.2.x-dev",
+        "drupal/migrate_source_json": "8.x-2.x-dev",
+        "drupal/migrate_tools": "8.2.x-dev",
+        "drupal/adminimal_theme": "8.1.1",
+        "drupal/admin_toolbar": "8.1.15",
+        "drupal/address": "8.1.0-rc1",
+        "drupal/page_manager": "8.1.0-alpha24",
+        "drupal/config_devel": "8.1.x-dev",
+        "drupal/features": "8.3.0-beta7",
+        "drupal/config_installer": "8.1.x-dev",
+        "drupal/devel": "8.1.0-alpha1",
+        "drupal/search_api": "8.1.0-beta1",
+        "drupal/components": "8.1.0",
+        "drupal/focal_point": "8.1.x-dev#5625c189227329c9a4baab2ce4d2e92296d0d9e4",
+        "drupal/metatag": "8.1.0-beta10",
+        "drupal/field_group": "8.x-1.x-dev",
+        "drupal/video_embed_field": "8.1.2",
+        "drupal/inline_entity_form": "8.x-1.x-dev#95b22227b926083e730870efc3e3b352b735be91",
+        "drupal/search_api_solr": "8.x-1.x-dev#2afbdfdbb0158ed221771bc673d471303aad95bb",
+        "drupal/shs": "8.x-1.x-dev#d76de22b52c88c72c143b41da22e3d9417a68e96",
+        "drupal/paragraphs": "8.1.0",
+        "drupal/geofield": "8.1.0-alpha2",
+        "drupal/field_collection": "8.1.x-dev#ed0d48776859abddf461a8cf2135902db03e812b",
+        "drupal/rules": "8.3.0-alpha2",
+        "drupal/scheduler": "8.1.0-alpha2",
+        "drupal/ds": "8.2.5",
+        "drupal/search_kint": "8.1.0",
+        "drupal/colorbox": "^8.1",
+        "drupal/extlink": "8.1.0-alpha2",
+        "drush/config-extra": "1.0.1",
+        "drupal/views_geojson": "8.1.x-dev",
+        "drupal/media_entity": "^8.1",
+        "drupal/entity_browser": "^8.1@alpha",
+        "drupal/media_entity_image": "^8.1",
+        "drupal/media_entity_document": "^8.1",
+        "drupal/views_contextual_filters_or": "8.1.x-dev",
+        "drupal/imce": "^8.1",
+        "drupal/editor_advanced_link": "^8.1",
+        "drupal/mailchimp": "^8.1",
+        "drupal/views_infinite_scroll": "^8.1",
+        "drupal/better_exposed_filters": "8.3.0-alpha1",
+        "drupal/menu_breadcrumb": "~8.1",
+        "drupal/roleassign": "~8.1",
+        "drupal/userprotect": "8.1.x-dev",
+        "drupal/autogrow": "^8.1",
+        "drupal/facets": "8.1.x-dev#5b201574122d45dda249062970b75742359fa5d9",
+        "drupal/pathauto": "^8.1",
+        "drupal/redirect": "^8.1"
+    },
+    "require-dev": {
+        "behat/mink": "~1.6",
+        "behat/mink-goutte-driver": "~1.2",
+        "jcalderonzumba/gastonjs": "^1.1@dev",
+        "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
+        "mikey179/vfsStream": "~1.2",
+        "phpunit/phpunit": "~4.8",
+        "symfony/css-selector": "2.7.*"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "classmap": [
+            "scripts/composer/ScriptHandler.php"
+        ]
+    },
+    "scripts": {
+        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+        "post-install-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::buildScaffold",
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+        ],
+        "post-update-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::buildScaffold",
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+        ]
+    },
+    "extra": {
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/contrib/{$name}": [
+                "type:drupal-drush"
+            ]
+        },
+        "patches": {
+            "drupal/core": {
+                "Number widget validation can break AJAX actions": "https://www.drupal.org/files/issues/drupal-fix_number_widget_errorElement-2614250-25.patch",
+                "Country Export": "https://www.drupal.org/files/issues/drupal_2684873_18.patch",
+                "All Languages problem": "patches/all_languages_markup_in_detail_title.patch",
+                "Date Plugin Exposed Filter": "https://www.drupal.org/files/issues/2648950-48.patch",
+                "Relationships and view modes": "https://www.drupal.org/files/issues/2457999-63.patch",
+                "Sourcelss plugins": "https://www.drupal.org/files/issues/2797421_7.patch",
+                "Linktext required": "patches/required_link_text-2613924-52.patch"
+            },
+            "drupal/migrate_plus": {
+               "Properly integrate source plugins": "patches/properly_integrate-2752335-18.patch"
+            },
+            "drupal/extlink": {
+                "Patch removes error about usage of invalid placeholders (Issue #2630496)": "https://www.drupal.org/files/issues/extlink_invalid-placeholder.patch",
+                "Fixes target attributes's value to _blank": "https://www.drupal.org/files/issues/extlink-2691423-1.patch"
+            },
+            "drupal/search_api": {
+                "Related to the patch Relationships and view modes 2457999": "patches/search_api_relationship.patch"
+            },
+            "drupal/paragraphs": {
+                "Patch for notices on translatable": "https://www.drupal.org/files/issues/paragraphs-check-translation-hook-order-path-updated-2775609.patch"
+            },
+            "drupal/menu_breadcrumb": {
+                "Patch for menu position": "patches/menu_breadcrumb_menu_position2.patch"
+            },
+            "drupal/facets":{
+                "Compatibility Search API": "https://www.drupal.org/files/issues/2794745-51.patch"
+            },
+            "drupal/views_geojson": {
+                "Notice": "patches/geojson_notice.patch"
+            },
+            "drupal/ds": {
+                "Relationships and view modes Display Suite": "patches/display_suite_renderer.patch"
+            }
+        }
+    }
+}

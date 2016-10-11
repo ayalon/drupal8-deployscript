@@ -1,0 +1,28 @@
+ core/lib/Drupal/Core/Block/BlockBase.php | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/core/lib/Drupal/Core/Block/BlockBase.php b/core/lib/Drupal/Core/Block/BlockBase.php
+index bcc3954..cac676e 100644
+--- a/core/lib/Drupal/Core/Block/BlockBase.php
++++ b/core/lib/Drupal/Core/Block/BlockBase.php
+@@ -277,7 +277,9 @@ public function setTransliteration(TransliterationInterface $transliteration) {
+    */
+   public function getFormClass($operation) {
+     if ($this->hasFormClass($operation)) {
+-      return $this->getPluginDefinition()['forms'][$operation];
++      $plugin_definition = $this->getPluginDefinition();
++      // Fallback to the class of this plugin if the key is not set.
++      return isset($plugin_definition['forms'][$operation]) ? $plugin_definition['forms'][$operation] : get_class($this);
+     }
+   }
+
+@@ -285,7 +287,8 @@ public function getFormClass($operation) {
+    * {@inheritdoc}
+    */
+   public function hasFormClass($operation) {
+-    return isset($this->getPluginDefinition()['forms'][$operation]);
++    return isset($this->getPluginDefinition()['forms'][$operation]) || ($operation == 'configure'
++      && $this instanceof PluginFormInterface);
+   }
+ 
+ }

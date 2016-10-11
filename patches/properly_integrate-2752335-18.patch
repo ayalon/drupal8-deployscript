@@ -1,0 +1,98 @@
+diff --git a/migrate_plus.module b/migrate_plus.module
+index ce7f5be..b1e6b90 100644
+--- a/migrate_plus.module
++++ b/migrate_plus.module
+@@ -18,6 +18,17 @@ use Drupal\migrate_plus\Event\MigratePrepareRowEvent;
+ function migrate_plus_migration_plugins_alter(array &$migrations) {
+   /** @var \Drupal\migrate\Plugin\MigrationInterface $migration */
+   foreach ($migrations as $id => $migration) {
++    // For derived configuration entity-based migrations, strip the deriver
++    // prefix.
++    $prefix = 'migration_config_deriver:';
++    if (strpos($id, $prefix) === 0) {
++      $new_id = substr($id, strlen($prefix));
++      $migrations[$new_id] = $migrations[$id];
++      unset($migrations[$id]);
++      $id = $new_id;
++    }
++
++    // Integrate shared group configuration into the migration.
+     if (empty($migration['migration_group'])) {
+       $migration['migration_group'] = 'default';
+     }
+diff --git a/migrations/migration_config_deriver.yml b/migrations/migration_config_deriver.yml
+new file mode 100644
+index 0000000..5b6528e
+--- /dev/null
++++ b/migrations/migration_config_deriver.yml
+@@ -0,0 +1,5 @@
++id: migration_config_deriver
++deriver: Drupal\migrate_plus\Plugin\MigrationConfigDeriver
++# @todo: Remove if/when https://www.drupal.org/node/2797421 is fixed.
++source:
++  plugin: embedded_data
+diff --git a/src/Plugin/MigrationConfigDeriver.php b/src/Plugin/MigrationConfigDeriver.php
+new file mode 100644
+index 0000000..40c756d
+--- /dev/null
++++ b/src/Plugin/MigrationConfigDeriver.php
+@@ -0,0 +1,27 @@
++<?php
++
++namespace Drupal\migrate_plus\Plugin;
++
++use Drupal\Component\Plugin\Derivative\DeriverBase;
++use Drupal\migrate_plus\Entity\Migration;
++
++/**
++ * Expose migration entities in the active config store as derivative plugins.
++ */
++class MigrationConfigDeriver extends DeriverBase {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getDerivativeDefinitions($base_plugin_definition) {
++    if (empty($this->derivatives)) {
++      $migrations = Migration::loadMultiple();
++      /** @var \Drupal\migrate_plus\Entity\MigrationInterface $migration */
++      foreach ($migrations as $id => $migration) {
++        $this->derivatives[$id] = $migration->toArray();
++      }
++    }
++    return $this->derivatives;
++  }
++
++}
+diff --git a/src/Plugin/MigrationConfigEntityPluginManager.php b/src/Plugin/MigrationConfigEntityPluginManager.php
+index 2500975..94dd8c2 100644
+--- a/src/Plugin/MigrationConfigEntityPluginManager.php
++++ b/src/Plugin/MigrationConfigEntityPluginManager.php
+@@ -2,24 +2,11 @@
+
+ namespace Drupal\migrate_plus\Plugin;
+
+-use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
+ use Drupal\migrate\Plugin\MigrationPluginManager;
+-use Drupal\migrate_plus\Plugin\Discovery\ConfigEntityDiscovery;
+
+ /**
+  * Plugin manager for migration plugins.
++ *
++ * @deprecated - Use the core MigrationPluginManager directly.
+  */
+-class MigrationConfigEntityPluginManager extends MigrationPluginManager {
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected function getDiscovery() {
+-    if (!isset($this->discovery)) {
+-      $discovery = new ConfigEntityDiscovery('migration');
+-      $this->discovery = new ContainerDerivativeDiscoveryDecorator($discovery);
+-    }
+-    return $this->discovery;
+-  }
+-
+-}
++class MigrationConfigEntityPluginManager extends MigrationPluginManager { }

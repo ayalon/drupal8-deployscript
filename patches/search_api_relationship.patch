@@ -1,0 +1,16 @@
+Index: src/Plugin/views/EntityTranslationRenderer.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Plugin/views/EntityTranslationRenderer.php	(revision )
++++ src/Plugin/views/EntityTranslationRenderer.php	(revision )
+@@ -14,7 +14,7 @@
+   /**
+    * {@inheritdoc}
+    */
+-  public function getLangcode(ResultRow $row) {
++  public function getLangcode(ResultRow $row, $relationship = 'none') {
+     if (!empty($row->search_api_language)) {
+       return $row->search_api_language;
+     }
