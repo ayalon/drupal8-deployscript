@@ -1,0 +1,24 @@
+Index: web/themes/contrib/adminimal_theme/css/adminimal.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- adminimal_theme/css/adminimal.css	(revision )
++++ adminimal_theme/css/adminimal.css	(revision )
+@@ -165,7 +165,7 @@
+ [dir="rtl"] .adminimal .is-horizontal ul.tabs.secondary li:first-of-type {
+   margin-right: 0;
+ }
+-
++/*
+ .adminimal .vertical-tabs {
+   border-radius: 0;
+   border: none;
+@@ -200,6 +200,7 @@
+   box-shadow: none;
+ }
+
++*/
+ .adminimal .button {
+   border-radius: 0;
+   background-image: none;

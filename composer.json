@@ -66,7 +66,6 @@
         "drupal/redirect": "^1.0",
         "drupal/redis": "1.0.0-alpha1",
         "drupal/entity_usage": "1.x-dev",
-        "drupal/superfish": "1.x-dev",
         "drupal/domain": "1.x-dev",
         "drupal/entity": "1.x-dev",
         "drupal/commerce": "2.x-dev"
@@ -138,10 +137,6 @@
             },
             "drupal/adminimal_theme": {
                 "Vertical Tabs": "patches/adminimal_vertical_tabs.patch"
-            },
-            "drupal/superfish": {
-                "libraries": "https://www.drupal.org/files/issues/superfish-d8_libraries_standard-2744831-2.patch",
-                "download": "https://www.drupal.org/files/issues/superfish_add_composer_json-2774395-3-D8.patch"
             },
             "drupal/ds": {
                 "Relationships and view modes Display Suite": "patches/display_suite_renderer.patch"
